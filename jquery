@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Unique 4-Digit Numbers</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Enter 10 Unique 4-Digit Numbers</h1>
+    <form id="numberForm">
+        <div id="inputFields">
+            <!-- Generate 10 input fields -->
+            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
+            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
+            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
+            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
+            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
+            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
+            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
+            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
+            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
+            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
+        </div>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            const enteredNumbers = new Set();
+
+            $('.number-input').on('input', function() {
+                const number = $(this).val();
+                if (number.length === 4) {
+                    if (enteredNumbers.has(number)) {
+                        alert('You have entered a duplicate number: ' + number);
+                        $(this).val('');
+                    } else {
+                        enteredNumbers.add(number);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
