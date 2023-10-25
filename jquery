@@ -1,45 +1,66 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Unique 4-Digit Numbers</title>
+    <title>Unique 4-Digit Number Entry</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <h1>Enter 10 Unique 4-Digit Numbers</h1>
-    <form id="numberForm">
-        <div id="inputFields">
-            <!-- Generate 10 input fields -->
-            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
-            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
-            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
-            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
-            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
-            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
-            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
-            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
-            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
-            <input type="text" class="number-input" pattern="\d{4}" maxlength="4" required>
-        </div>
-    </form>
+    <div id="textbox-container">
+        <!-- Initial set of text boxes -->
+        <input type="text" class="number-input" maxlength="4">
+        <input type="text" class="number-input" maxlength="4">
+        <input type="text" class="number-input" maxlength="4">
+        <input type="text" class="number-input" maxlength="4">
+        <input type="text" class="number-input" maxlength="4">
+        <input type="text" class="number-input" maxlength="4">
+        <input type="text" class="number-input" maxlength="4">
+        <input type="text" class="number-input" maxlength="4">
+        <input type="text" class="number-input" maxlength="4">
+        <input type="text" class="number-input" maxlength="4">
+    </div>
+
+    <button id="add-button">Add Text Box</button>
+    <button id="remove-button">Remove Text Box</button>
 
     <script>
-        $(document).ready(function() {
-            const enteredNumbers = new Set();
-
-            $('.number-input').on('input', function() {
-                const number = $(this).val();
-                if (number.length === 4) {
-                    if (enteredNumbers.has(number)) {
-                        alert('You have entered a duplicate number: ' + number);
-                        $(this).val('');
-                    } else {
-                        enteredNumbers.add(number);
-                    }
+        // Function to check for duplicate numbers
+        function hasDuplicateNumbers() {
+            const numberSet = new Set();
+            let hasDuplicates = false;
+            $('.number-input').each(function() {
+                const value = $(this).val();
+                if (numberSet.has(value) && value !== '') {
+                    hasDuplicates = true;
                 }
+                numberSet.add(value);
             });
+            return hasDuplicates;
+        }
+
+        // Function to add a new text box
+        $('#add-button').on('click', function() {
+            const numInputs = $('.number-input').length;
+            if (numInputs < 10) {
+                const newInput = $('<input type="text" class="number-input" maxlength="4">');
+                $('#textbox-container').append(newInput);
+            }
+        });
+
+        // Function to remove the last text box
+        $('#remove-button').on('click', function() {
+            const numInputs = $('.number-input').length;
+            if (numInputs > 1) {
+                $('.number-input').last().remove();
+            }
+        });
+
+        // Event listener for input changes
+        $('#textbox-container').on('input', '.number-input', function() {
+            if (hasDuplicateNumbers()) {
+                alert("Numbers must be unique!");
+                $(this).val('');
+            }
         });
     </script>
 </body>
 </html>
-
-
