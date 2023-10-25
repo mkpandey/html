@@ -21,9 +21,17 @@
 
     <button id="add-button">Add Text Box</button>
     <button id="remove-button">Remove Text Box</button>
+    <input type="hidden" id="hidden-field">
 
     <script>
         // Function to check for duplicate numbers
+
+function updateHiddenField() {
+            const values = $('.number-input').map(function() {
+                return $(this).val();
+            }).get().join(',');
+            $('#hidden-field').val(values);
+        }
         function hasDuplicateNumbers() {
             const numberSet = new Set();
             let hasDuplicates = false;
