@@ -44,6 +44,18 @@ function updateHiddenField() {
             });
             return hasDuplicates;
         }
+/// parse and set
+$('#parse-and-set').on('click', function() {
+            const values = $('#hidden-field').val().split(',');
+            $('.number-input').each(function(index) {
+                if (index < values.length) {
+                    $(this).val(values[index]);
+                } else {
+                    $(this).val('');
+                }
+            });
+        });
+
 
         // Function to add a new text box
         $('#add-button').on('click', function() {
