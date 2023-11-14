@@ -1,1 +1,116 @@
 
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+public class EmployeeService {
+
+    public static void main(String[] args) {
+        List<Employee> employeeList = Arrays.asList(
+                new Employee("John", "Doe", "Engineering", "1001","1","2"),
+                new Employee("Jane", "Doe", "Marketing", "1002","1","2"),
+                new Employee("John", "Smith", "Engineering", "1001","1","2"),
+                new Employee("Alice", "Johnson", "HR", "1003","1","2"),
+                new Employee("Bob", "Smith", "Engineering", "1004","1","2"),
+                new Employee("Jane", "Doe", "Marketing", "1002","1","2"),
+                new Employee("Charlie", "Brown", "Finance", "1005","1","2"),
+                new Employee("Charlie", "Brown", "Finance", "1005","1","2"),
+                new Employee("John", "Doe", "Engineering", "1001","1","2")
+        );
+
+        List<Employee> distinctEmployees1 = employeeList.stream()
+                .distinct()
+                .collect(Collectors.toList());
+        System.out.println(distinctEmployees1 );
+        
+      //  [Employee{firstName='John', lastName='Doe', department='Engineering', employeeId='1001', employeeDob='1', employeeAdd='2'},
+        //Employee{firstName='Jane', lastName='Doe', department='Marketing', employeeId='1002', employeeDob='1', employeeAdd='2'},
+        //Employee{firstName='John', lastName='Smith', department='Engineering', employeeId='1001', employeeDob='1', employeeAdd='2'},
+        //Employee{firstName='Alice', lastName='Johnson', department='HR', employeeId='1003', employeeDob='1', employeeAdd='2'},
+        //Employee{firstName='Bob', lastName='Smith', department='Engineering', employeeId='1004', employeeDob='1', employeeAdd='2'}, 
+        //Employee{firstName='Charlie', lastName='Brown', department='Finance', employeeId='1005', employeeDob='1', employeeAdd='2'}]
+
+        Map<Employee, Long> counting = employeeList.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        List<Employee> distinctEmployees = counting.entrySet().stream()
+                .filter(entry -> entry.getValue() == 1)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        List<Employee> duplicateEmployees = counting.entrySet().stream()
+                .filter(entry -> entry.getValue() > 1)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+      //  Distinct Employees: [Employee{firstName='Alice', lastName='Johnson', department='HR', employeeId='1003'}, 
+        //Employee{firstName='John', lastName='Smith', department='Engineering', employeeId='1001'},
+        //Employee{firstName='Bob', lastName='Smith', department='Engineering', employeeId='1004'}, 
+        //Employee{firstName='Charlie', lastName='Brown', department='Finance', employeeId='1005'}, 
+        //Employee{firstName='John', lastName='Doe', department='Engineering', employeeId='1001'}]
+        
+       // Distinct Employees: [Employee{firstName='Alice', lastName='Johnson', department='HR', employeeId='1003', employeeDob='1', employeeAdd='2'}, 
+        //Employee{firstName='John', lastName='Smith', department='Engineering', employeeId='1001', employeeDob='1', employeeAdd='2'},
+        //Employee{firstName='Bob', lastName='Smith', department='Engineering', employeeId='1004', employeeDob='1', employeeAdd='2'}]
+
+        
+     //   Distinct Employees: [Employee{firstName='Alice', lastName='Johnson', department='HR', employeeId='1003', employeeDob='1', employeeAdd='2'},
+        //Employee{firstName='John', lastName='Smith', department='Engineering', employeeId='1001', employeeDob='1', employeeAdd='2'}, 
+        //Employee{firstName='Bob', lastName='Smith', department='Engineering', employeeId='1004', employeeDob='1', employeeAdd='2'},
+        //Employee{firstName='John', lastName='Doe', department='Engineering', employeeId='1001', employeeDob='1', employeeAdd='2'}]
+
+
+        
+        
+        System.out.println("Original Employee List: " + employeeList);
+        System.out.println("Distinct Employees: " + distinctEmployees);
+        System.out.println("Duplicate Employees: " + duplicateEmployees);
+    }
+}
+
+class Employee {
+    private String firstName;
+    private String lastName;
+    private String department;
+    private String employeeId;
+    private String employeeDob;
+    private String employeeAdd;
+
+    public Employee(String firstName, String lastName, String department, String employeeId,String employeeDob,String employeeAdd) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.department = department;
+        this.employeeId = employeeId;
+        this.employeeDob=employeeDob;
+        this.employeeAdd=employeeAdd;
+    }
+
+    // Getters, setters, and other methods...
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return firstName.equals(employee.firstName) &&
+                lastName.equals(employee.lastName) &&
+                department.equals(employee.department) &&
+                employeeId.equals(employee.employeeId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName, department, employeeId);
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", department='" + department + '\'' +
+                ", employeeId='" + employeeId + '\'' +
+                  ", employeeDob='" + employeeDob + '\'' +
+                    ", employeeAdd='" + employeeAdd + '\'' +
+                '}';
+    }
+}
