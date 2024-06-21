@@ -1,5 +1,5 @@
 
-https://us06web.zoom.us/j/9924553484?pwd=UXhPTllBTVBVSmFYNlNoMncydVlNQT09
+
 
 Here's the modified PL/SQL code with a hardcoded array of country names:
 DECLARE
