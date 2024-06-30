@@ -1,4 +1,9 @@
-
+$(document).ready(function() {
+  $("#name").on("keyup change", function() {
+    var value = $(this).val();
+    $("#dynamic-texts input[type='text']").val(value);
+  });
+});
 
 
 Here's the modified PL/SQL code with a hardcoded array of country names:
