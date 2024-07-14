@@ -5,6 +5,16 @@
     <version>1.90</version>
 </dependency>
 
+
+import java.io.FileReader; // For reading from the PEM file
+import org.bouncycastle.openssl.PEMReader; // For reading PEM-encoded data (from Bouncy Castle)
+import javax.net.ssl.SSLContext; // For configuring SSL context
+import javax.net.ssl.X509TrustManager; // For custom trust management (optional)
+import javax.net.ssl.TrustManagerFactory; // For creating TrustManager instances
+import javax.net.ssl.SSLConnectionSocketFactory; // For creating SSL socket factory
+import org.apache.http.impl.client.HttpClientBuilder; // For building HttpClient
+import org.springframework.web.client.RestTemplate;
+
 @Configuration
 public class RestTemplateConfig {
 
