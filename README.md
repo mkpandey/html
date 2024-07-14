@@ -1,3 +1,10 @@
+
+<dependency>
+    <groupId>org.bouncycastle</groupId>
+    <artifactId>bcprov-jdk15on</artifactId>
+    <version>1.90</version>
+</dependency>
+
 @Configuration
 public class RestTemplateConfig {
 
