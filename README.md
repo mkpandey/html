@@ -12,3 +12,8 @@ import java.time.format.DateTimeFormatter;
         String utcString = convertToUTCString(now);
         System.out.println(utcString);
     }
+
+
+    public static String generateRequestId() {
+        return "KT" + new Random().ints(10000000, 99999999).findFirst().getAsInt();
+    }
