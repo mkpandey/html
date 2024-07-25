@@ -17,3 +17,8 @@ import java.time.format.DateTimeFormatter;
     public static String generateRequestId() {
         return "KT" + new Random().ints(10000000, 99999999).findFirst().getAsInt();
     }
+ private int counter = 1;
+
+    public String generateOrderId() {
+        return String.format("ORDER-%04d", counter++);
+    }
