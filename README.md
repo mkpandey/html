@@ -1,24 +1,25 @@
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
- 
- public static String convertToUTCString(LocalDateTime localDateTime) {
-        ZonedDateTime zonedDateTime = localDateTime.atOffset(ZoneOffset.UTC);
-        return zonedDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'"));
-    }
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-    public static void main(String[] args) {
-        LocalDateTime now = LocalDateTime.now();
-        String utcString = convertToUTCString(now);
-        System.out.println(utcString);
-    }
+import java.util.List;
+import java.util.stream.Collectors;
 
+@RestControllerAdvice
+public class CustomExceptionHandler {
 
-    public static String generateRequestId() {
-        return "KT" + new Random().ints(10000000, 99999999).findFirst().getAsInt();
-    }
- private int counter = 1;
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleValidationExceptions(MethodArgumentNotValidException ex) {
+        List<String> errors = ex.getBindingResult().getFieldErrors()
+                .stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.toList());
 
-    public String generateOrderId() {
-        return String.format("ORDER-%04d", counter++);
+        return new ErrorResponse("Validation failed", String.join(", ", errors));
     }
+}
