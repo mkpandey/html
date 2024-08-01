@@ -23,3 +23,15 @@ public class CustomExceptionHandler {
         return new ErrorResponse("Validation failed", String.join(", ", errors));
     }
 }
+
+
+
+
+
+
+==============================================
+    @ExceptionHandler(InvalidJsonException.class)
+    public ResponseEntity<Object> handleInvalidJson(InvalidJsonException ex, WebRequest request) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("message", ex.getMessage());
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST); }
