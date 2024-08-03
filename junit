@@ -1,0 +1,35 @@
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(YourController.class) // Replace with your controller class
+public class YourControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    public void testBadRequestMissingRequiredField() throws Exception {
+        // Assuming a required field 'name' is missing
+        mockMvc.perform(post("/yourEndpoint")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"age\": 30}")) // Missing 'name' field
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void testBadRequestInvalidDataType() throws Exception {
+        // Assuming 'age' should be an integer
+        mockMvc.perform(post("/yourEndpoint")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"name\": \"John Doe\", \"age\": \"thirty\"}")) // Invalid data type for 'age'
+                .andExpect(status().isBadRequest());
+    }
+
+    // ... other test cases for different BadRequest scenarios
+}
