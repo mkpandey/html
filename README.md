@@ -19,3 +19,7 @@ public class TracingConfig {
 
 spring.sleuth.enabled=true
 spring.sleuth.sampler.probability=1.0
+
+
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.Tracer;
