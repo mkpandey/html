@@ -1,17 +1,21 @@
-Mono<ResponseEntity<String>> responseMono = webClient.put()
-        .uri("/your-resource-path/{id}", "your-resource-id")
-        .contentType(MediaType.APPLICATION_JSON)
-        .body(Mono.just(yourRequestBody), String.class)
-        .retrieve()
-        .toEntity(String.class);
+import io.zipkin.brave.Tracer;
+import io.zipkin.brave.sampler.Sampler;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-ResponseEntity<String> responseEntity = responseMono.block();
-if (responseEntity != null) {
-    HttpStatus statusCode = responseEntity.getStatusCode();
-    String responseBody = responseEntity.getBody();
+@Configuration
+public class TracingConfig {
 
-    System.out.println("Status Code: " + statusCode.value());
-    System.out.println("Response Body: " + responseBody);
-} else {
-    System.out.println("Response is null");
+    @Bean
+    public Tracer tracer() {
+        return io.zipkin.brave.Brave.newBuilder()
+                .localServiceName("your-service-name")
+                .sampler(Sampler.ALWAYS_SAMPLE) // You can use different sampling strategies
+                .build()
+                .tracer();
+    }
 }
+
+
+spring.sleuth.enabled=true
+spring.sleuth.sampler.probability=1.0
